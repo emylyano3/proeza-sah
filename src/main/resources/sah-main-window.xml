@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="sah-main" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="gui.xsd">
+
+	<image_toggle_buttons>
+		<image_toggle_button name="ledSwitch" rollover_icon="/images/bulbOff_64x64.png" pressed_icon="/images/bulbOn_64x64.png"
+			normal_icon="/images/bulbOff_64x64.png">
+			<font name="Arial" style="plain" size="14" />
+			<action_listener class="proeza.sah.desktop.listener.light.LightsSwitchListener" />
+		</image_toggle_button>
+	</image_toggle_buttons>
+	<buttons>
+		<button name="status" icon="/images/status_64x64.png" >
+			<action_listener class="proeza.sah.desktop.listener.light.AskStatusListener" />
+		</button>
+	</buttons>
+	<panels>
+		<panel name="main" enabled="true">
+			<min_size width="500" height="550" />
+			<pref_size width="550" height="550" />
+			<border class="javax.swing.border.TitledBorder" title="Panel principal">
+				<font name="Arial" style="bold" size="15" />
+			</border>
+			<font name="Arial" style="bold" size="15" />
+			<layout class="org.jdesktop.layout.GroupLayout" />
+		</panel>
+	</panels>
+</gui>

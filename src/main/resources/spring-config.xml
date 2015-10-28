@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+        
+	<!-- Habilitacion de configuracion via anotaciones -->
+	<context:annotation-config/>
+
+	<!-- Auto scaneo de clases -->
+    <context:component-scan base-package="proeza.sah"/>
+    <context:component-scan base-package="com.proeza" />
+
+	<bean id="appClass" class="proeza.sah.desktop.core.MainApp" >
+		<property name="confLocation" value="/app.cfg.properties" />
+	</bean>
+
+	<bean id="moduleJarLoader" class="com.proeza.mdesktop.module.loader.ModuleJarLoader" >
+		<constructor-arg type="java.lang.String" value="modules" />
+	</bean>
+
+	<bean id="localRadio" class="proeza.sah.radio.LocalRadio" >
+		<constructor-arg type="java.lang.String" value="COM10" />
+		<constructor-arg type="java.lang.Integer" value="9600" />
+		<property name="dataListeners">
+			<list>
+				<ref bean="statusDataListener" />
+			</list>
+		</property>
+		<property name="explicitDataListeners">
+			<list>
+				<ref bean="statusExplicitDataListener" />
+			</list>
+		</property>
+	</bean>
+<!-- 
+	
+	<bean id="httpModuleUpdater" class="com.proeza.mdesktop.module.updater.HTTPModuleUpdater" >
+		<constructor-arg type="java.lang.String" value="jad" />
+		<constructor-arg>
+			<map>
+				<entry key="modules" value="http://proeza/mdesktop/updates" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="fileModuleUpdater" class="com.proeza.mdesktop.module.updater.FileModuleUpdater" >
+		<constructor-arg type="java.lang.String" value="jad" />
+		<constructor-arg>
+			<map>
+				<entry key="modules" value="\\tersd700597\Compartido\modules-updates" />
+			</map>
+		</constructor-arg>
+	</bean>
+ -->
+	
+ </beans>
