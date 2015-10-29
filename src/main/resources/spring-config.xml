@@ -30,11 +30,6 @@
 				<ref bean="statusDataListener" />
 			</list>
 		</property>
-		<property name="explicitDataListeners">
-			<list>
-				<ref bean="statusExplicitDataListener" />
-			</list>
-		</property>
 	</bean>
 <!-- 
 	

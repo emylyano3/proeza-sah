@@ -10,15 +10,15 @@ import com.digi.xbee.api.XBeeDevice;
 import com.digi.xbee.api.exceptions.TimeoutException;
 import com.digi.xbee.api.exceptions.XBeeException;
 import com.digi.xbee.api.listeners.IDataReceiveListener;
-import com.digi.xbee.api.listeners.IExplicitDataReceiveListener;
+import com.digi.xbee.api.listeners.IPacketReceiveListener;
 
 public class LocalRadio {
-    private String     port;
-    private int        baudRate;
-    private XBeeDevice zbDevice;
+    private String                       port;
+    private int                          baudRate;
+    private XBeeDevice                   zbDevice;
 
-    private List<IDataReceiveListener>         dataListeners         = new ArrayList<>(0);
-    private List<IExplicitDataReceiveListener> explicitDataListeners = new ArrayList<>(0);
+    private List<IDataReceiveListener>   dataListeners          = new ArrayList<>(0);
+    private List<IPacketReceiveListener> packetReceiveListeners = new ArrayList<>(0);
 
     public LocalRadio(String port, Integer baudRate) {
         this.port = port;
@@ -29,6 +29,8 @@ public class LocalRadio {
     @PostConstruct
     public void openConnection() throws XBeeException {
         this.zbDevice.open();
+        addAllDeviceDataListeners(this.dataListeners);
+        addAllDevicePacketReceiveListeners(this.packetReceiveListeners);
     }
 
     @PreDestroy
@@ -36,38 +38,16 @@ public class LocalRadio {
         this.zbDevice.close();
     }
 
-    public void addDataListener(IDataReceiveListener dataListener) {
-        this.zbDevice.addDataListener(dataListener);
-    }
-
     public void sendBroadcast(byte[] data) throws TimeoutException, XBeeException {
         this.zbDevice.sendBroadcastData(data);
     }
 
-    public List<IDataReceiveListener> getDataListeners() {
-        return this.dataListeners;
-    }
-
     public void setDataListeners(List<IDataReceiveListener> dataListeners) {
-        removeAllDeviceDataListeners();
-        addAllDeviceDataListeners(dataListeners);
         this.dataListeners = dataListeners;
     }
 
-    public List<IExplicitDataReceiveListener> getExplicitDataListeners() {
-        return this.explicitDataListeners;
-    }
-
-    public void setExplicitDataListeners(List<IExplicitDataReceiveListener> explicitDataListeners) {
-        removeAllDeviceDataListeners();
-        addAllDeviceExplicitDataListeners(explicitDataListeners);
-        this.explicitDataListeners = explicitDataListeners;
-    }
-
-    private void removeAllDeviceDataListeners() {
-        for (IDataReceiveListener dataListener : this.dataListeners) {
-            this.zbDevice.removeDataListener(dataListener);
-        }
+    public void setPacketReceiveListeners(List<IPacketReceiveListener> packetReceiveListeners) {
+        this.packetReceiveListeners = packetReceiveListeners;
     }
 
     private void addAllDeviceDataListeners(List<IDataReceiveListener> dataListeners) {
@@ -76,8 +56,9 @@ public class LocalRadio {
         }
     }
 
-    private void addAllDeviceExplicitDataListeners(List<IExplicitDataReceiveListener> explicitDataListeners) {
-        for (IExplicitDataReceiveListener dataListener : explicitDataListeners) {
+    private void addAllDevicePacketReceiveListeners(List<IPacketReceiveListener> packetReceiveListeners) {
+        for (IPacketReceiveListener listener : packetReceiveListeners) {
+            this.zbDevice.addPacketListener(listener);
         }
     }
 }
