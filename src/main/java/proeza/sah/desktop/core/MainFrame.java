@@ -1,12 +1,29 @@
 package proeza.sah.desktop.core;
 
+import javax.swing.JToggleButton;
+
 import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.GroupLayout.ParallelGroup;
+import org.jdesktop.layout.GroupLayout.SequentialGroup;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.guiBuilder.api.component.GBFrame;
+import proeza.sah.device.Device;
+import proeza.sah.device.DeviceNetwork;
+import proeza.sah.device.DeviceResourceManager;
+import proeza.sah.device.DeviceState;
 
-public class SahMainFrame extends GBFrame {
+@Component
+public class MainFrame extends GBFrame {
 
-    private static final long serialVersionUID = 1L;
+    private static final long     serialVersionUID = 1L;
+
+    @Autowired
+    private DeviceNetwork         network;
+
+    @Autowired
+    private DeviceResourceManager deviceResourceManager;
 
     @Override
     protected Class<?> getReferenceClass() {
@@ -41,16 +58,17 @@ public class SahMainFrame extends GBFrame {
         final GroupLayout gl1 = (GroupLayout) this.manager.getPanel(R.PANELS.MAIN).getLayout();
         gl1.setAutocreateContainerGaps(true);
         gl1.setAutocreateGaps(true);
-        gl1.setHorizontalGroup(
-                gl1.createParallelGroup()
-                .add(this.manager.getImageToggleButton(R.IMAGE_TOGGLE_BUTTONS.LED_SWITCH))
-                .add(this.manager.getButton(R.BUTTONS.STATUS))
-                );
-        gl1.setVerticalGroup(
-                gl1.createSequentialGroup()
-                .add(this.manager.getImageToggleButton(R.IMAGE_TOGGLE_BUTTONS.LED_SWITCH))
-                .add(this.manager.getButton(R.BUTTONS.STATUS))
-                );
+        ParallelGroup pg = gl1.createParallelGroup();
+        SequentialGroup sg = gl1.createSequentialGroup();
+        gl1.setHorizontalGroup(pg);
+        gl1.setVerticalGroup(sg);
+        for (Device device : this.network.getDevices()) {
+            JToggleButton button = new JToggleButton();
+            button.setIcon(this.deviceResourceManager.getResource(device.getStatus().getType()).asIcon());
+            button.setSelected(device.getStatus().getState().equals(DeviceState.ON));
+            pg.add(button);
+            sg.add(button);
+        }
     }
 
     @Override

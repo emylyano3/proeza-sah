@@ -1,12 +1,26 @@
 package proeza.sah.desktop.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.digi.xbee.api.exceptions.XBeeException;
 import com.guiBuilder.api.component.application.DesktopApp;
 
-public class MainApp extends DesktopApp<SahMainFrame, Splash> {
+import proeza.sah.device.DeviceNetwork;
+
+public class MainApp extends DesktopApp<MainFrame, Splash> {
+
+    @Autowired
+    private DeviceNetwork deviceNetwork;
+
+    @Autowired
+    private Splash        splash;
+
+    @Autowired
+    private MainFrame     mainFrame;
 
     @Override
     protected Splash createSplash() {
-        return new Splash();
+        return this.splash;
     }
 
     @Override
@@ -21,11 +35,15 @@ public class MainApp extends DesktopApp<SahMainFrame, Splash> {
 
     @Override
     protected void init() {
-
+        try {
+            this.deviceNetwork.createNetwork();
+        } catch (XBeeException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    protected SahMainFrame createMainFrame() {
-        return new SahMainFrame();
+    protected MainFrame createMainFrame() {
+        return this.mainFrame;
     }
 }
