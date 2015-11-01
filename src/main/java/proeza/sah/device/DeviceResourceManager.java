@@ -11,9 +11,18 @@ public class DeviceResourceManager {
         this.resources = resources;
     }
 
-    public DeviceResource getResource(DeviceType deviceType) {
+    public DeviceResource getResource(DeviceType deviceType, DeviceState deviceState) {
         for (DeviceResource resource : this.resources) {
-            if (deviceType.equals(resource.getDeviceType())) {
+            if (deviceType.equals(resource.getDeviceType()) && deviceState.equals(resource.getDeviceState())) {
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public DeviceResource getResource(Device device, DeviceState deviceState) {
+        for (DeviceResource resource : this.resources) {
+            if (device.getStatus().getType().equals(resource.getDeviceType()) && deviceState.equals(resource.getDeviceState())) {
                 return resource;
             }
         }

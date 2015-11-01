@@ -21,16 +21,27 @@
 	<bean id="deviceResourceManager" class="proeza.sah.device.DeviceResourceManager" >
 		<constructor-arg>
 			<list>
-				<ref bean="lightDevice" />
+				<ref bean="lightDeviceOn" />
+				<ref bean="lightDeviceOff" />
 			</list>
 		</constructor-arg>
 	</bean>
 
-	<bean id="lightDevice" class="proeza.sah.device.DeviceResource" >
+	<bean id="lightDeviceOn" class="proeza.sah.device.DeviceResource" >
 		<constructor-arg name="resourcePath" value="/images/bulbOn_64x64.png"/>
 		<constructor-arg name="deviceType" value="LIGHT"/>
 		<constructor-arg name="deviceState" value="ON"/>
 	</bean>
+	<bean id="lightDeviceOff" class="proeza.sah.device.DeviceResource" >
+		<constructor-arg name="resourcePath" value="/images/bulbOff_64x64.png"/>
+		<constructor-arg name="deviceType" value="LIGHT"/>
+		<constructor-arg name="deviceState" value="OFF"/>
+	</bean>
+	
+<!-- 	<bean id="localRadio" class="proeza.sah.radio.DummyRadio" > -->
+<!-- 		<constructor-arg type="java.lang.String" value="COM10" /> -->
+<!-- 		<constructor-arg type="java.lang.Integer" value="9600" /> -->
+<!-- 	</bean> -->
 	
 	<bean id="localRadio" class="proeza.sah.radio.LocalRadio" >
 		<constructor-arg type="java.lang.String" value="COM10" />

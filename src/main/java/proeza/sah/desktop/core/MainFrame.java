@@ -5,25 +5,22 @@ import javax.swing.JToggleButton;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.GroupLayout.ParallelGroup;
 import org.jdesktop.layout.GroupLayout.SequentialGroup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.guiBuilder.api.component.GBFrame;
+import com.guiBuilder.app.main.GBBeanFactory;
+
+import proeza.sah.desktop.listener.light.LightsSwitchListener;
 import proeza.sah.device.Device;
 import proeza.sah.device.DeviceNetwork;
 import proeza.sah.device.DeviceResourceManager;
 import proeza.sah.device.DeviceState;
 
-@Component
 public class MainFrame extends GBFrame {
 
     private static final long     serialVersionUID = 1L;
 
-    @Autowired
-    private DeviceNetwork         network;
+    private DeviceNetwork         network = GBBeanFactory.getInstance().getBean(DeviceNetwork.class);
 
-    @Autowired
-    private DeviceResourceManager deviceResourceManager;
+    private DeviceResourceManager devResManager = GBBeanFactory.getInstance().getBean(DeviceResourceManager.class);
 
     @Override
     protected Class<?> getReferenceClass() {
@@ -64,8 +61,13 @@ public class MainFrame extends GBFrame {
         gl1.setVerticalGroup(sg);
         for (Device device : this.network.getDevices()) {
             JToggleButton button = new JToggleButton();
-            button.setIcon(this.deviceResourceManager.getResource(device.getStatus().getType()).asIcon());
-            button.setSelected(device.getStatus().getState().equals(DeviceState.ON));
+            button.setIcon(this.devResManager.getResource(device, DeviceState.OFF).asIcon());
+            button.setSelectedIcon(this.devResManager.getResource(device, DeviceState.ON).asIcon());
+            button.getModel().setSelected(device.getStatus().getState().equals(DeviceState.ON));
+            button.setToolTipText(device.getStatus().getName());
+            LightsSwitchListener listener = new LightsSwitchListener(this.manager);
+            listener.setOn(device.getStatus().getState().equals(DeviceState.ON));
+            button.addActionListener(listener);
             pg.add(button);
             sg.add(button);
         }

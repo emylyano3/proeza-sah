@@ -3,14 +3,16 @@ package proeza.sah.device;
 public class DeviceStatus {
 
     private int         id;
+    private String      name;
     private DeviceType  type;
     private DeviceState state;
+    private int         stateValue;
 
-    public DeviceStatus(int id, DeviceType type, DeviceState state) {
+    public DeviceStatus(int id, String name, DeviceType type) {
         super();
         this.id = id;
         this.type = type;
-        this.state = state;
+        this.name = name;
     }
 
     public int getId() {
@@ -23,5 +25,21 @@ public class DeviceStatus {
 
     public DeviceState getState() {
         return this.state;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getStateValue() {
+        return this.stateValue;
+    }
+
+    public void setState(DeviceState state) {
+        this.state = state;
+    }
+
+    public void setStateValue(int stateValue) {
+        this.stateValue = stateValue;
     }
 }

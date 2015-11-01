@@ -11,13 +11,10 @@ import com.digi.xbee.api.exceptions.TimeoutException;
 import com.digi.xbee.api.exceptions.XBeeException;
 import com.digi.xbee.api.listeners.IDataReceiveListener;
 
-public class LocalRadio {
+public class LocalRadio implements ILocalRadio {
     private String                     port;
     private int                        baudRate;
     private XBeeDevice                 xbDevice;
-
-    // private List<RemoteXBeeDevice> devices;
-    // private List<RemoteXBeeDevice> devicesOnError = new ArrayList<>(0);
 
     private List<IDataReceiveListener> dataListeners = new ArrayList<>(0);
 
@@ -27,10 +24,12 @@ public class LocalRadio {
         this.xbDevice = new XBeeDevice(this.port, this.baudRate);
     }
 
+    @Override
     public void addDataListener(IDataReceiveListener dataReceiveListener) {
         this.dataListeners.add(dataReceiveListener);
     }
 
+    @Override
     public void removeDataListeners() {
         for (IDataReceiveListener listener : this.dataListeners) {
             this.xbDevice.removeDataListener(listener);
@@ -38,49 +37,25 @@ public class LocalRadio {
         this.dataListeners.clear();
     }
 
+    @Override
     @PostConstruct
     public void openConnection() throws XBeeException {
-        try {
-            this.xbDevice.open();
-        } catch (XBeeException e) {
-
-        }
+        this.xbDevice.open();
     }
 
+    @Override
     @PreDestroy
     public void closeConnection() throws XBeeException {
         this.xbDevice.close();
     }
 
+    @Override
     public XBeeDevice getXbeeDevice() {
         return this.xbDevice;
     }
 
+    @Override
     public void sendBroadcast(byte[] data) throws TimeoutException, XBeeException {
         this.xbDevice.sendBroadcastData(data);
     }
-    //
-    // public void setDataListeners(List<IDataReceiveListener> dataListeners) {
-    // this.dataListeners = dataListeners;
-    // }
-    //
-    // public void setPacketReceiveListeners(List<IPacketReceiveListener>
-    // packetReceiveListeners) {
-    // this.packetReceiveListeners = packetReceiveListeners;
-    // }
-    //
-    // private void addAllDeviceDataListeners(List<IDataReceiveListener>
-    // dataListeners) {
-    // for (IDataReceiveListener dataListener : dataListeners) {
-    // this.zbDevice.addDataListener(dataListener);
-    // }
-    // }
-    //
-    // private void
-    // addAllDevicePacketReceiveListeners(List<IPacketReceiveListener>
-    // packetReceiveListeners) {
-    // for (IPacketReceiveListener listener : packetReceiveListeners) {
-    // this.zbDevice.addPacketListener(listener);
-    // }
-    // }
 }

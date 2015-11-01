@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import proeza.sah.radio.LocalRadio;
+import proeza.sah.radio.ILocalRadio;
 
 @Component
 public class DeviceManager {
 
-    public List<Device> getDevices(LocalRadio localRadio, DeviceDiscoveryMessage msg) {
+    public List<Device> getDevices(ILocalRadio localRadio, DeviceDiscoveryMessage msg) {
         if (isValidMessage(msg)) {
             List<DeviceStatus> devicesStatus = msg.getDevices();
             List<Device> result = new ArrayList<>(devicesStatus.size());

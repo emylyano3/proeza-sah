@@ -8,11 +8,11 @@ import com.guiBuilder.api.component.listener.GBEventListener;
 import com.guiBuilder.app.main.GBBeanFactory;
 import com.guiBuilder.core.GuiManager;
 
-import proeza.sah.radio.LocalRadio;
+import proeza.sah.radio.ILocalRadio;
 
 public class AskStatusListener extends GBEventListener implements ActionListener {
 
-    private LocalRadio radio = GBBeanFactory.getInstance().getBean(LocalRadio.class);
+    private ILocalRadio         radio  = GBBeanFactory.getInstance().getBean(ILocalRadio.class);
 
     private static final String STATUS = "STATUS";
 

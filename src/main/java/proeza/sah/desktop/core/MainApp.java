@@ -15,9 +15,6 @@ public class MainApp extends DesktopApp<MainFrame, Splash> {
     @Autowired
     private Splash        splash;
 
-    @Autowired
-    private MainFrame     mainFrame;
-
     @Override
     protected Splash createSplash() {
         return this.splash;
@@ -44,6 +41,6 @@ public class MainApp extends DesktopApp<MainFrame, Splash> {
 
     @Override
     protected MainFrame createMainFrame() {
-        return this.mainFrame;
+        return new MainFrame();
     }
 }

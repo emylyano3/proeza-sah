@@ -2,19 +2,19 @@ package proeza.sah.device;
 
 import com.digi.xbee.api.RemoteXBeeDevice;
 
-import proeza.sah.radio.LocalRadio;
+import proeza.sah.radio.ILocalRadio;
 
 public class Device {
 
-    private LocalRadio       localRadio;
+    private ILocalRadio       localRadio;
     private RemoteXBeeDevice remoteRadio;
     private DeviceStatus     status;
 
-    public LocalRadio getLocalRadio() {
+    public ILocalRadio getLocalRadio() {
         return this.localRadio;
     }
 
-    public void setLocalRadio(LocalRadio localRadio) {
+    public void setLocalRadio(ILocalRadio localRadio) {
         this.localRadio = localRadio;
     }
 

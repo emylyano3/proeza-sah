@@ -8,14 +8,14 @@ import com.guiBuilder.api.component.listener.GBEventListener;
 import com.guiBuilder.app.main.GBBeanFactory;
 import com.guiBuilder.core.GuiManager;
 
-import proeza.sah.radio.LocalRadio;
+import proeza.sah.radio.ILocalRadio;
 
 public class LightsSwitchListener extends GBEventListener implements ActionListener {
 
-    private LocalRadio radio = GBBeanFactory.getInstance().getBean(LocalRadio.class);
+    private ILocalRadio         radio = GBBeanFactory.getInstance().getBean(ILocalRadio.class);
 
-    private static final String ON  = "ON";
-    private static final String OFF = "OFF";
+    private static final String ON    = "ON";
+    private static final String OFF   = "OFF";
     private boolean             isOn;
 
     public LightsSwitchListener(GuiManager manager) {
@@ -35,5 +35,13 @@ public class LightsSwitchListener extends GBEventListener implements ActionListe
         } catch (XBeeException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isOn() {
+        return this.isOn;
+    }
+
+    public void setOn(boolean isOn) {
+        this.isOn = isOn;
     }
 }

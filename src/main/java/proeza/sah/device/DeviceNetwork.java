@@ -11,7 +11,7 @@ import com.digi.xbee.api.exceptions.TimeoutException;
 import com.digi.xbee.api.exceptions.XBeeException;
 import com.digi.xbee.api.models.XBeeMessage;
 
-import proeza.sah.radio.LocalRadio;
+import proeza.sah.radio.ILocalRadio;
 
 @Component
 public class DeviceNetwork {
@@ -21,7 +21,7 @@ public class DeviceNetwork {
     private static final int       DISCOVERY_STEP_PAUSE = 100;
 
     @Autowired
-    private LocalRadio             localRadio;
+    private ILocalRadio            localRadio;
 
     @Autowired
     private DeviceManager          deviceManager;
@@ -31,13 +31,9 @@ public class DeviceNetwork {
     private List<Device>           devices              = new ArrayList<>(0);
 
     public void createNetwork() throws TimeoutException, XBeeException {
-        try {
-            clearData();
-            discoverRadios();
-            loadDevices();
-        } catch (Exception e) {
-
-        }
+        clearData();
+        discoverRadios();
+        loadDevices();
     }
 
     private void loadDevices() {
