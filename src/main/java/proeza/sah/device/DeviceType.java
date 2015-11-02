@@ -2,12 +2,17 @@ package proeza.sah.device;
 
 public enum DeviceType {
 
-    LIGHT(0),
-    MOTOR(1),
-    SWITCH(2),
-    SENSOR(3),
+    LIGHT(1),
+    MOTOR(2),
+    SWITCH(3),
     SERVO(4),
-    APPLIANCE(5);
+    CONDITIONER(5),
+    FRIDGE(6),
+    CURTAIN(7),
+    COFFE_MAKER(8),
+    ALARM(9),
+    SENSOR(10),
+    ;
 
     private int id;
 
